@@ -1,6 +1,6 @@
 import { verifyWebhook } from "@clerk/nextjs/webhooks";
 import { NextRequest } from "next/server";
-import myPrismaClient, { clerkClient } from "@/lib";
+import myPrismaClient from "@/lib";
 
 export async function POST(req: NextRequest) {
   try {
@@ -15,10 +15,10 @@ export async function POST(req: NextRequest) {
           "https://i.pinimg.com/736x/6c/eb/75/6ceb75052855a7c75e8134396f801f64.jpg";
         const clerkId = evt.data.id;
 
-        const newUser = await myPrismaClient.user.create({
+        await myPrismaClient.user.create({
           data: {
             clerkId: clerkId,
-            username:evt.data.email_addresses[0]?.email_address.split("@")[0],
+            username: evt.data.email_addresses[0]?.email_address.split("@")[0],
             email: userEmail,
             avatar: userAvatar,
           },
