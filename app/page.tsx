@@ -2,6 +2,7 @@
 
 import AnalyseSentimentButton from "@/components/AnalyseSentimentButton";
 import TranslateButton from "@/components/TranslateButton";
+import { useLanguages } from "@/hooks/useLanguages";
 import { useState } from "react";
 
 type HistoryItem = {
@@ -148,6 +149,8 @@ const HomePage = () => {
     }
   };
 
+  const languages: { language: string; name: string }[] = useLanguages();
+
   const handleSentimentAnalysis = async () => {
     setLoading(true);
     setError(null);
@@ -155,7 +158,7 @@ const HomePage = () => {
     setSentimentData(null);
 
     try {
-      const API_KEY = 'AIzaSyAUgp0cDrh90yPAZWm6RdcKlUT8Tv9ymXU';
+      const API_KEY = "AIzaSyAUgp0cDrh90yPAZWm6RdcKlUT8Tv9ymXU";
       const url = `https://language.googleapis.com/v1/documents:analyzeSentiment?key=${API_KEY}`;
 
       const res = await fetch(url, {
@@ -335,12 +338,11 @@ const HomePage = () => {
                     value={sourceLanguage}
                     onChange={(e) => setSourceLanguage(e.target.value)}
                   >
-                    <option value="en">English</option>
-                    <option value="es">Spanish</option>
-                    <option value="fr">French</option>
-                    <option value="de">German</option>
-                    <option value="ja">Japanese</option>
-                    <option value="zh">Chinese</option>
+                    {languages.map((l, index) => (
+                      <option key={index} value={l.language}>
+                        {l.name}
+                      </option>
+                    ))}
                   </select>
                 </div>
               </div>
@@ -412,12 +414,11 @@ const HomePage = () => {
                     value={targetLanguage}
                     onChange={(e) => setTargetLanguage(e.target.value)}
                   >
-                    <option value="es">Spanish</option>
-                    <option value="en">English</option>
-                    <option value="fr">French</option>
-                    <option value="de">German</option>
-                    <option value="ja">Japanese</option>
-                    <option value="zh">Chinese</option>
+                    {languages.map((l, index) => (
+                      <option key={index} value={l.language}>
+                        {l.name}
+                      </option>
+                    ))}
                   </select>
                 </div>
               </div>
